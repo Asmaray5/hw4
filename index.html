@@ -1,0 +1,36 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="stmarkdown.css">
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+</head>
+<h1><a href="#how-to-embed-stata-results-in-html" id="how-to-embed-stata-results-in-html">How to embed Stata results in .html</a></h1>
+<h3><a href="#author-md-mph" id="author-md-mph">Author, MD MPH</a></h3>
+<p><strong>Background:</strong> A <u>user</u> downloads and installs a <u>system</u> of program files, mostly ado-files, which form the foundation of most of the commands used in Stata Programming. Using those commands and additional syntax written out sequentially in a do-file, the user creates well-formed instruction to Stata called a do-file script. Once the user runs this script, results are generated and displayed in the results window, in a graph, or in a format (<code>.xlsx</code>, <code>.log</code>, <code>.dta</code>, <code>.docx</code>, <code>.md</code>, <code>LaTeX</code>, <code>.html</code>, etc). The <code>.html</code> file format is of specific interest since its the pathway to self-publication. To illustrate how this may be achieved in Stata, we hereby introduce the <code>dyndoc</code> command.</p>
+<p><strong>Methods:</strong></p>
+<pre><code>. set obs 30 
+
+. gen age = (rnormal ()*15 + 57 )
+
+. gen age_t=(rt(_N)*15)+57
+
+. hist age, ///
+&gt;    fcolor(orange%40) /// simulated normal 
+&gt;    addplot(hist age_t, fcolor(midblue%50)) /// simulated t-distribution 
+&gt;    normal /// theoretical normal
+&gt;    legend(on ///
+&gt;       lab(1 &quot;Sampled from Normal&quot;) ///
+&gt;           lab(2 &quot;Theoretical Normal&quot;) ///
+&gt;           lab(3 &quot;Sampled from t-distribution&quot;) ///
+&gt;           )
+
+.           
+.           graph export hist_age.png, replace
+
+.           
+</code></pre>
+<p><img src="Graph.svg" ></p>
+<p>\text{Age, years} \sim \mathcal{N}(\mu=57,,\sigma^{2}=225)</p>
